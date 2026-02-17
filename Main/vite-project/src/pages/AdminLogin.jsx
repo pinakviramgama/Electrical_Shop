@@ -1,27 +1,32 @@
-import axios from "axios"; // ✅ import axios
+import axios from "axios";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 export default function AdminLogin() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
 
+  const navigate = useNavigate();
   const API = import.meta.env.VITE_API_URL;
 
   const handleLogin = async (e) => {
     e.preventDefault();
+    setLoading(true);
+    setError("");
 
     try {
-      const res = await axios.post(`${API}/api/admin/login`, { email, password }); // ✅ use axios
-
+      const res = await axios.post(`${API}/api/admin/login`, { email, password });
       localStorage.setItem("token", res.data.token);
-
-      alert("Login Successful ✅");
       navigate("/admin/dashboard");
     } catch (err) {
-      alert("Invalid Credentials ❌");
+      // Detect network / CORS errors vs invalid credentials
+      if (!err.response) setError("Network Error ❌");
+      else setError(err.response.data.message || "Invalid Credentials ❌");
       console.error(err);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -29,6 +34,8 @@ export default function AdminLogin() {
     <div className="container d-flex justify-content-center align-items-center vh-100">
       <div className="card shadow-lg p-4 rounded-4" style={{ width: "400px" }}>
         <h3 className="text-center mb-4">🔐 Admin Login</h3>
+
+        {error && <div className="alert alert-danger">{error}</div>}
 
         <form onSubmit={handleLogin}>
           <div className="mb-3">
@@ -52,8 +59,8 @@ export default function AdminLogin() {
             />
           </div>
 
-          <button type="submit" className="btn btn-dark w-100">
-            Login
+          <button type="submit" className="btn btn-dark w-100" disabled={loading}>
+            {loading ? "Logging in..." : "Login"}
           </button>
         </form>
       </div>
