@@ -21,7 +21,7 @@ export default function AdminLogin() {
       localStorage.setItem("token", res.data.token);
       navigate("/admin/dashboard");
     } catch (err) {
-      if (!err.response) setError("Network Error ❌ (Check backend is running)");
+      if (!err.response) setError("Network Error ❌");
       else setError(err.response.data.message || "Invalid Credentials ❌");
       console.error(err);
     } finally {
