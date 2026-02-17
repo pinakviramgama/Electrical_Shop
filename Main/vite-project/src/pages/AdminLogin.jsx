@@ -21,8 +21,7 @@ export default function AdminLogin() {
       localStorage.setItem("token", res.data.token);
       navigate("/admin/dashboard");
     } catch (err) {
-      // Detect network / CORS errors vs invalid credentials
-      if (!err.response) setError("Network Error ❌");
+      if (!err.response) setError("Network Error ❌ (Check backend is running)");
       else setError(err.response.data.message || "Invalid Credentials ❌");
       console.error(err);
     } finally {
