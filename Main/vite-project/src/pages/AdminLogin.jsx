@@ -18,8 +18,7 @@ export default function AdminLogin() {
     setError("");
 
     try {
-      //new api
-     const res = await axios.post(`https://electrical-shop-7.onrender.com/admin/login`, { email, password });
+     const res = await axios.post("http://localhost:5000/api/admin/login", { email, password });
       localStorage.setItem("token", res.data.token);
       navigate("/admin/dashboard");
     } catch (err) {
