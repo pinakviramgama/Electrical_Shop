@@ -1,17 +1,19 @@
+import axios from "axios"; // ✅ import axios
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import API from "../api/axios";
 
 export default function AdminLogin() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
 
+  const API = import.meta.env.VITE_API_URL;
+
   const handleLogin = async (e) => {
     e.preventDefault();
 
     try {
-      const res = await API.post("/admin/login", { email, password });
+      const res = await axios.post(`${API}/api/admin/login`, { email, password }); // ✅ use axios
 
       localStorage.setItem("token", res.data.token);
 
@@ -19,6 +21,7 @@ export default function AdminLogin() {
       navigate("/admin/dashboard");
     } catch (err) {
       alert("Invalid Credentials ❌");
+      console.error(err);
     }
   };
 
@@ -49,7 +52,7 @@ export default function AdminLogin() {
             />
           </div>
 
-          <button className="btn btn-dark w-100">
+          <button type="submit" className="btn btn-dark w-100">
             Login
           </button>
         </form>
