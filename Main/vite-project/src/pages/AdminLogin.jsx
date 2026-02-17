@@ -9,7 +9,6 @@ export default function AdminLogin() {
   const [error, setError] = useState("");
 
   const navigate = useNavigate();
-  const API = import.meta.env.VITE_API_URL;
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -17,7 +16,7 @@ export default function AdminLogin() {
     setError("");
 
     try {
-      const res = await axios.post(`${API}/api/admin/login`, { email, password });
+     const res = await axios.post("http://localhost:5000/api/admin/login", { email, password });
       localStorage.setItem("token", res.data.token);
       navigate("/admin/dashboard");
     } catch (err) {
