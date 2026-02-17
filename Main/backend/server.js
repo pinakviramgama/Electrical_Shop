@@ -14,7 +14,7 @@ const __dirname = path.resolve();
 // ✅ Correct CORS setup at the very top
 app.use(
   cors({
-    origin: "https://electrical-shop-7.onrender.com", // frontend deployed URL
+    origin: "https://electrical-shop-8.onrender.com", // frontend deployed URL
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     credentials: true,
   }),
