@@ -27,6 +27,12 @@ app.get("*", (req, res) => {
   res.sendFile(path.join(__dirname, "../vite-project/dist/index.html"));
 });
 
+app.use(
+  cors({
+    origin: "https://electrical-shop-7.onrender.com", // frontend deployed URL
+  }),
+);
+
 // MongoDB Connect
 mongoose
   .connect(process.env.MONGO_URI)
