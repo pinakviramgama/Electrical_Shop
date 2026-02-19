@@ -13,7 +13,7 @@ const app = express();
 // ✅ Body Parser
 app.use(express.json());
 
-// ✅ CORS Setup
+// ✅ CORS
 app.use(
   cors({
     origin: ["http://localhost:5173", "https://electrical-shop-8.onrender.com"],
@@ -25,32 +25,34 @@ app.use(
 app.use("/api/products", productRoutes);
 app.use("/api/admin", adminRoutes);
 
-// ======================================================
-// ✅ Serve Frontend on Render
-// ======================================================
+// =====================================================
+// ✅ FRONTEND SERVE FIX (MOST IMPORTANT)
+// =====================================================
 
 const __dirname = path.resolve();
 
-// Serve React/Vite dist folder
-app.use(express.static(path.join(__dirname, "vite-project/dist")));
+// ✅ Correct dist path (because vite-project is outside backend)
+const distPath = path.join(__dirname, "../vite-project/dist");
+
+app.use(express.static(distPath));
 
 // React routing fix
 app.get("*", (req, res) => {
-  res.sendFile(path.join(__dirname, "vite-project/dist/index.html"));
+  res.sendFile(path.join(distPath, "index.html"));
 });
 
-// ======================================================
-// ✅ MongoDB Connection
-// ======================================================
+// =====================================================
+// ✅ MongoDB Connect
+// =====================================================
 
 mongoose
   .connect(process.env.MONGO_URI)
   .then(() => console.log("MongoDB Connected ✅"))
   .catch((err) => console.log("MongoDB Error ❌", err));
 
-// ======================================================
+// =====================================================
 // ✅ Start Server
-// ======================================================
+// =====================================================
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT} 🚀`));
