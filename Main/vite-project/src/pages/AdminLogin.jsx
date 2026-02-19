@@ -8,9 +8,10 @@ export default function AdminLogin() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
-  const API = import.meta.env.VITE_API_URL;
-
   const navigate = useNavigate();
+
+  // ✅ API URL from .env
+  const API = import.meta.env.VITE_API_URL;
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -18,13 +19,23 @@ export default function AdminLogin() {
     setError("");
 
     try {
-     const res = await axios.post("https://electrical-shop-8.onrender.com/api/admin/login", { email, password });
+      const res = await axios.post(
+        `${API}/admin/login`,
+        { email, password },
+        { withCredentials: true }
+      );
+
       localStorage.setItem("token", res.data.token);
+
       navigate("/admin/dashboard");
     } catch (err) {
-      if (!err.response) setError("Network Error ❌");
-      else setError(err.response.data.message || "Invalid Credentials ❌");
-      console.error(err);
+      console.log("LOGIN ERROR:", err);
+
+      if (!err.response) {
+        setError("Network Error ❌ Backend not reachable");
+      } else {
+        setError(err.response.data.message || "Invalid Credentials ❌");
+      }
     } finally {
       setLoading(false);
     }
@@ -38,6 +49,7 @@ export default function AdminLogin() {
         {error && <div className="alert alert-danger">{error}</div>}
 
         <form onSubmit={handleLogin}>
+          {/* Email */}
           <div className="mb-3">
             <label className="form-label">Email</label>
             <input
@@ -45,9 +57,11 @@ export default function AdminLogin() {
               placeholder="Enter admin email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
+              required
             />
           </div>
 
+          {/* Password */}
           <div className="mb-3">
             <label className="form-label">Password</label>
             <input
@@ -56,10 +70,16 @@ export default function AdminLogin() {
               placeholder="Enter password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
+              required
             />
           </div>
 
-          <button type="submit" className="btn btn-dark w-100" disabled={loading}>
+          {/* Button */}
+          <button
+            type="submit"
+            className="btn btn-dark w-100"
+            disabled={loading}
+          >
             {loading ? "Logging in..." : "Login"}
           </button>
         </form>

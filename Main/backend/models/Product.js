@@ -1,22 +1,29 @@
 import mongoose from "mongoose";
 
-const productSchema = new mongoose.Schema({
-  name: String,
-  price: Number,
-  description: String,
+const productSchema = new mongoose.Schema(
+  {
+    name: {
+      type: String,
+      required: true,
+      trim: true,
+    },
 
-  images: {
-    type: [String],
-    validate: [
-      (val) => val.length <= 3,
-      "Maximum 3 images allowed per product",
-    ],
-  },
+    price: {
+      type: Number,
+      required: true,
+    },
 
-  createdAt: {
-    type: Date,
-    default: Date.now,
+    description: {
+      type: String,
+      required: true,
+    },
+
+    images: {
+      type: [String],
+      required: true,
+    },
   },
-});
+  { timestamps: true },
+);
 
 export default mongoose.model("Product", productSchema);

@@ -6,26 +6,34 @@ export const getProducts = async (req, res) => {
     const products = await Product.find();
     res.json(products);
   } catch (err) {
-    res.status(500).json({ message: "Failed to fetch products" });
+    console.log("FETCH PRODUCTS ERROR:", err);
+
+    res.status(500).json({
+      message: err.message,
+    });
   }
 };
 
 // ✅ Admin: Add Product
 export const addProduct = async (req, res) => {
   try {
-    const { name, price, description, images } = req.body;
+    console.log("BODY RECEIVED:", req.body);
 
-    // ✅ Basic Validation
+    let { name, price, description, images } = req.body;
+
+    // ✅ Validation
     if (!name || !price || !description) {
       return res.status(400).json({
         message: "All fields are required",
       });
     }
 
-    // ✅ Price Validation
+    // ✅ Convert price to Number (Fix)
+    price = Number(price);
+
     if (isNaN(price)) {
       return res.status(400).json({
-        message: "Price must be a number",
+        message: "Price must be a valid number",
       });
     }
 
@@ -55,8 +63,10 @@ export const addProduct = async (req, res) => {
       product,
     });
   } catch (err) {
+    console.log("ADD PRODUCT ERROR:", err);
+
     res.status(500).json({
-      message: "Server error while adding product",
+      message: err.message,
     });
   }
 };
@@ -68,23 +78,28 @@ export const deleteProduct = async (req, res) => {
 
     res.json({ message: "Product Deleted ❌" });
   } catch (err) {
-    res.status(500).json({ message: "Delete failed" });
+    console.log("DELETE ERROR:", err);
+
+    res.status(500).json({
+      message: err.message,
+    });
   }
 };
 
 // ✅ Admin: Update Product
 export const updateProduct = async (req, res) => {
   try {
-    const { name, price, description, images } = req.body;
+    let { name, price, description, images } = req.body;
 
-    // ✅ Price Validation
+    // ✅ Convert price if present
+    if (price) price = Number(price);
+
     if (price && isNaN(price)) {
       return res.status(400).json({
-        message: "Price must be a number",
+        message: "Price must be a valid number",
       });
     }
 
-    // ✅ Max 3 Images Rule in Update Also
     if (images && images.length > 3) {
       return res.status(400).json({
         message: "Only 3 images allowed per product",
@@ -107,8 +122,10 @@ export const updateProduct = async (req, res) => {
       updated,
     });
   } catch (err) {
+    console.log("UPDATE ERROR:", err);
+
     res.status(500).json({
-      message: "Update failed",
+      message: err.message,
     });
   }
 };
