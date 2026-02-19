@@ -8,9 +8,7 @@ import adminRoutes from "./routes/adminRoutes.js";
 import productRoutes from "./routes/productRoutes.js";
 
 dotenv.config();
-
 const app = express();
-const __dirname = path.resolve();
 
 // ✅ Body Parser
 app.use(express.json());
@@ -18,10 +16,7 @@ app.use(express.json());
 // ✅ CORS Setup
 app.use(
   cors({
-    origin: [
-      "http://localhost:5173", // local frontend
-      "https://electrical-shop-8.onrender.com", // deployed frontend/backend same domain
-    ],
+    origin: ["http://localhost:5173", "https://electrical-shop-8.onrender.com"],
     credentials: true,
   }),
 );
@@ -31,15 +26,17 @@ app.use("/api/products", productRoutes);
 app.use("/api/admin", adminRoutes);
 
 // ======================================================
-// ✅ SERVE FRONTEND BUILD (Render Fullstack Hosting)
+// ✅ Serve Frontend on Render
 // ======================================================
 
-// Serve React/Vite build folder
-app.use(express.static(path.join(__dirname, "dist")));
+const __dirname = path.resolve();
 
-// Any route not API goes to React
+// Serve React/Vite dist folder
+app.use(express.static(path.join(__dirname, "vite-project/dist")));
+
+// React routing fix
 app.get("*", (req, res) => {
-  res.sendFile(path.join(__dirname, "dist", "index.html"));
+  res.sendFile(path.join(__dirname, "vite-project/dist/index.html"));
 });
 
 // ======================================================
