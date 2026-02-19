@@ -8,51 +8,79 @@ import adminRoutes from "./routes/adminRoutes.js";
 import productRoutes from "./routes/productRoutes.js";
 
 dotenv.config();
+
 const app = express();
 
-// ✅ Body Parser
+// =====================================================
+// ✅ BODY PARSER
+// =====================================================
 app.use(express.json());
 
-// ✅ CORS
+// =====================================================
+// ✅ CORS FIX (Frontend + Localhost)
+// =====================================================
+const allowedOrigins = [
+  "http://localhost:5173", // Local frontend
+  "https://electrical-shop-8.onrender.com", // Render deployed frontend
+];
+
 app.use(
   cors({
-    origin: ["http://localhost:5173", "https://electrical-shop-8.onrender.com"],
+    origin: (origin, callback) => {
+      if (!origin) return callback(null, true);
+
+      if (allowedOrigins.includes(origin)) {
+        return callback(null, true);
+      }
+
+      return callback(
+        new Error(`CORS Blocked ❌ Origin not allowed: ${origin}`),
+      );
+    },
     credentials: true,
+    methods: ["GET", "POST", "PUT", "DELETE"],
   }),
 );
 
-// ✅ API Routes
+// =====================================================
+// ✅ API ROUTES
+// =====================================================
 app.use("/api/products", productRoutes);
 app.use("/api/admin", adminRoutes);
 
 // =====================================================
-// ✅ FRONTEND SERVE FIX (MOST IMPORTANT)
+// ✅ SERVE FRONTEND ON RENDER (React Build)
 // =====================================================
 
-const __dirname = path.resolve();
+// IMPORTANT: Backend folder = Main/backend
+// Frontend dist folder = Main/vite-project/dist
 
-// ✅ Correct dist path (because vite-project is outside backend)
-const distPath = path.join(__dirname, "../vite-project/dist");
+const __dirnamePath = path.resolve();
 
+// ✅ Correct dist path
+const distPath = path.join(__dirnamePath, "../vite-project/dist");
+
+console.log("✅ Serving Frontend from:", distPath);
+
+// Serve React static files
 app.use(express.static(distPath));
 
-// React routing fix
+// React Router fallback
 app.get("*", (req, res) => {
   res.sendFile(path.join(distPath, "index.html"));
 });
 
 // =====================================================
-// ✅ MongoDB Connect
+// ✅ MONGODB CONNECTION
 // =====================================================
-
 mongoose
   .connect(process.env.MONGO_URI)
   .then(() => console.log("MongoDB Connected ✅"))
   .catch((err) => console.log("MongoDB Error ❌", err));
 
 // =====================================================
-// ✅ Start Server
+// ✅ START SERVER
 // =====================================================
-
 const PORT = process.env.PORT || 5000;
+
 app.listen(PORT, () => console.log(`Server running on port ${PORT} 🚀`));
