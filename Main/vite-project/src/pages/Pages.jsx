@@ -10,6 +10,16 @@ export default function Home() {
   const [searchTerm, setSearchTerm] = useState("");
 
   // Fetch all products
+  const fetchProducts = async () => {
+    try {
+      const res = await API.get("/products");
+      setProducts(res.data);
+    } catch (err) {
+      console.log("FETCH ERROR:", err);
+    }
+  };
+
+  // Fetch all categories
  const fetchCategories = async () => {
   try {
     const res = await API.get("/category");
