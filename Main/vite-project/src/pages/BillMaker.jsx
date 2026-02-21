@@ -57,9 +57,9 @@ export default function BillMaker() {
       let response;
 
       if (formData._id) {
-        response = await API.put(`/invoices/update/${formData._id}`, formData);
+        response = await API.put(`/update/${formData._id}`, formData);
       } else {
-        response = await API.post("/invoices/create", formData);
+        response = await API.post("/create", formData);
       }
 
       setFormData(response.data);

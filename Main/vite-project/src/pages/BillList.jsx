@@ -15,7 +15,7 @@ export default function BillList() {
 
   const fetchBills = async () => {
     try {
-      const res = await API.get("/invoices/bills");
+      const res = await API.get("/bills");
       setBills(res.data);
     } catch (error) {
       console.error("Error fetching bills:", error);
@@ -34,7 +34,7 @@ export default function BillList() {
     if (!confirmDelete) return;
 
     try {
-      await API.delete(`/invoices/${id}`);
+      await API.delete(`/${id}`);
 
       // remove deleted bill from state
       setBills((prev) => prev.filter((bill) => bill._id !== id));
