@@ -1,8 +1,8 @@
 import {
-    FaInstagram,
-    FaMapMarkerAlt,
-    FaPhoneAlt,
-    FaWhatsapp,
+  FaInstagram,
+  FaMapMarkerAlt,
+  FaPhoneAlt,
+  FaWhatsapp,
 } from "react-icons/fa";
 
 const Footer = () => {
@@ -16,17 +16,13 @@ const Footer = () => {
             <h5 className="fw-bold mb-3">Shop Address</h5>
 
             <p className="mb-2">
-              <FaMapMarkerAlt className="me-2 text-warning" />
-              Jay Mataji Store, Main Road, Jamnagar, Gujarat - 361001
+              <FaMapMarkerAlt className="me-2 text-danger" />
+              Jamnagar Hapa railway Station Road Nr. Khira Furniture - 361120
             </p>
 
             <p className="mb-2">
-              <FaPhoneAlt className="me-2 text-warning" />
-              +91 98765 43210
-            </p>
-
-            <p className="mb-0">
-              Email: support@yourshop.com
+              <FaPhoneAlt className="me-2 text-info" />
+              +91 99743-48948
             </p>
           </div>
 
@@ -38,16 +34,16 @@ const Footer = () => {
               href="https://instagram.com"
               target="_blank"
               rel="noreferrer"
-              className="btn btn-outline-light me-2"
+              className="btn btn-outline-info me-2"
             >Instagram &nbsp;
               <FaInstagram size={20} />
             </a>
 
             <a
-              href="https://wa.me/919876543210"
+              href="https://wa.me/919974348948"
               target="_blank"
               rel="noreferrer"
-              className="btn btn-outline-light"
+              className="btn btn-success"
             >WhatsApp &nbsp;
               <FaWhatsapp size={20} />
             </a>
@@ -58,7 +54,7 @@ const Footer = () => {
         <hr className="border-secondary" />
 
         <p className="text-center mb-0 small">
-          © {new Date().getFullYear()} YourShop. All Rights Reserved.
+          © {new Date().getFullYear()} Bajrang Krupa Electricals. All Rights Reserved.
         </p>
       </div>
     </footer>

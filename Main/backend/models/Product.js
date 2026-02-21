@@ -13,6 +13,11 @@ const productSchema = new mongoose.Schema(
       required: true,
     },
 
+    wholeSalePrice: {
+      type: Number,
+      required: true,
+    },
+
     description: {
       type: String,
       required: true,
@@ -22,6 +27,7 @@ const productSchema = new mongoose.Schema(
       type: [String],
       required: true,
     },
+    category: { type: String, required: true },
   },
   { timestamps: true },
 );

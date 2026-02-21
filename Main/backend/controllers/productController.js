@@ -19,19 +19,21 @@ export const addProduct = async (req, res) => {
   try {
     console.log("BODY RECEIVED:", req.body);
 
-    let { name, price, description, images } = req.body;
+    let { name, price, wholeSalePrice, description, images, category } =
+      req.body;
 
     // ✅ Validation
-    if (!name || !price || !description) {
+    if (!name || !price || !wholeSalePrice || !description) {
       return res.status(400).json({
         message: "All fields are required",
       });
     }
 
-    // ✅ Convert price to Number (Fix)
+    // ✅ Convert numbers
     price = Number(price);
+    wholeSalePrice = Number(wholeSalePrice);
 
-    if (isNaN(price)) {
+    if (isNaN(price) || isNaN(wholeSalePrice)) {
       return res.status(400).json({
         message: "Price must be a valid number",
       });
@@ -44,9 +46,9 @@ export const addProduct = async (req, res) => {
       });
     }
 
-    if (images.length > 3) {
+    if (images.length > 4) {
       return res.status(400).json({
-        message: "Only 3 images allowed per product",
+        message: "Only 4 images allowed per product",
       });
     }
 
@@ -54,8 +56,10 @@ export const addProduct = async (req, res) => {
     const product = await Product.create({
       name,
       price,
+      wholeSalePrice,
       description,
       images,
+      category,
     });
 
     res.status(201).json({
@@ -89,7 +93,8 @@ export const deleteProduct = async (req, res) => {
 // ✅ Admin: Update Product
 export const updateProduct = async (req, res) => {
   try {
-    let { name, price, description, images } = req.body;
+    let { name, price, wholeSalePrice, description, images, category } =
+      req.body;
 
     // ✅ Convert price if present
     if (price) price = Number(price);
@@ -100,9 +105,9 @@ export const updateProduct = async (req, res) => {
       });
     }
 
-    if (images && images.length > 3) {
+    if (images && images.length > 4) {
       return res.status(400).json({
-        message: "Only 3 images allowed per product",
+        message: "Only 4 images allowed per product",
       });
     }
 
@@ -111,8 +116,10 @@ export const updateProduct = async (req, res) => {
       {
         name,
         price,
+        wholeSalePrice,
         description,
         images,
+        category,
       },
       { new: true },
     );
