@@ -101,7 +101,7 @@ function AdminDashboard() {
   const addCategory = async () => {
     if (!category.trim()) return;
     try {
-      const res = await API.post("/category/add", { name: category.trim() }, { headers: { Authorization: `Bearer ${token}` } });
+      const res = await API.post("http://localhost:5000/api/category/add", { name: category.trim() });
       setCategory("");
       setOpen(false);
       toast.success("Category added ✅");

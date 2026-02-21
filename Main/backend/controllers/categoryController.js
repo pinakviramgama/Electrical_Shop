@@ -1,31 +1,24 @@
 import Category from "../models/Category.js";
+import Product from "../models/Product.js";
 // Add a new category
 export const addCategory = async (req, res) => {
+  console.log("BODY RECEIVED:", req.body); // 🔹 debug
   try {
     const { name } = req.body;
-
-    // Validate input
     if (!name || !name.trim()) {
       return res.status(400).json({ message: "Category name is required" });
     }
-
-    // Check if category already exists
     const existing = await Category.findOne({ name: name.trim() });
-    if (existing) {
+    if (existing)
       return res.status(400).json({ message: "Category already exists" });
-    }
 
-    // Create new category
     const category = await Category.create({ name: name.trim() });
-
-    return res.status(201).json(category); // send back the created category
+    return res.status(201).json(category);
   } catch (err) {
-    console.error("Add Category Error:", err);
+    console.error("Add Category Error:", err); // 🔹 debug full error
     return res.status(500).json({ message: "Server error" });
   }
 };
-
-import Product from "../models/Product.js";
 
 export const deleteCategory = async (req, res) => {
   const { name } = req.params;
