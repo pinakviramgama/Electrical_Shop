@@ -18,15 +18,15 @@ app.use(express.json());
 // ✅ CORS Setup (allow local dev + deployed frontend)
 const allowedOrigins = [
   "http://localhost:5173", // local React dev
-  "https://electrical-shop-10.onrender.com", // replace with deployed frontend URL
+  "https://electrical-shop-10.onrender.com", // deployed frontend URL
 ];
 
 app.use(
   cors({
     origin: (origin, callback) => {
-      // allow requests with no origin (like Postman)
-      if (!origin || allowedOrigins.includes(origin))
+      if (!origin || allowedOrigins.includes(origin)) {
         return callback(null, true);
+      }
       return callback(new Error("CORS not allowed"));
     },
     credentials: true,
@@ -40,6 +40,8 @@ app.use("/api/category", categoryRoutes);
 app.use("/api/invoices", billRoutes);
 
 // ✅ MongoDB Connect
+console.log(process.env.MONGO_URI);
+
 mongoose
   .connect(process.env.MONGO_URI)
   .then(() => console.log("MongoDB Connected ✅"))
