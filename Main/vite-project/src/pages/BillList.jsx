@@ -42,7 +42,7 @@ export default function BillList() {
     if (!confirmDelete) return;
 
     try {
-      await API.delete(`/bills/${id}`); // ✅ correct route
+      await API.delete(`/invoices/bills/${id}`); // ✅ correct route
 
       setBills((prev) => prev.filter((bill) => bill._id !== id));
     } catch (error) {
