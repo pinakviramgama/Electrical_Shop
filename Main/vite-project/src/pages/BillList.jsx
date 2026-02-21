@@ -1,6 +1,7 @@
 import "bootstrap/dist/css/bootstrap.min.css";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { toast } from "sonner";
 import API from "../api/axios";
 import "./BillList.css";
 
@@ -44,7 +45,8 @@ export default function BillList() {
     try {
       await API.delete(`/invoices/${id}`); // ✅ correct route
 
-      setBills((prev) => prev.filter((bill) => bill._id !== id));
+        setBills((prev) => prev.filter((bill) => bill._id !== id));
+        toast.success("Bill Deleted Successfully ✅")
     } catch (error) {
       console.error("Delete error:", error);
       alert("Error deleting bill");
