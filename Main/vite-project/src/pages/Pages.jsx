@@ -12,7 +12,7 @@ export default function Home() {
   // Fetch all products
  const fetchProducts = async () => {
   try {
-    const res = await API.get("/api/products");
+    const res = await API.get("/products");
     setProducts(res.data);
   } catch (err) {
     console.log("FETCH ERROR:", err);
@@ -21,7 +21,7 @@ export default function Home() {
 
 const fetchCategories = async () => {
   try {
-    const res = await API.get("/api/category");
+    const res = await API.get("/category");
 
     if (Array.isArray(res.data)) {
       setCategories(
