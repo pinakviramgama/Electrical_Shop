@@ -15,10 +15,18 @@ export default function BillList() {
 
   const fetchBills = async () => {
     try {
-      const res = await API.get("/bills");
-      setBills(res.data);
+      const res = await API.get("/invoices/bills");
+      console.log("Bills API response:", res.data);
+
+      // ✅ Always ensure bills is an array
+      if (Array.isArray(res.data)) {
+        setBills(res.data);
+      } else {
+        setBills([]); // fallback if API returns error object
+      }
     } catch (error) {
       console.error("Error fetching bills:", error);
+      setBills([]); // fallback on error
     } finally {
       setLoading(false);
     }
@@ -26,7 +34,7 @@ export default function BillList() {
 
   /* ✅ DELETE BILL */
   const handleDeleteBill = async (id, e) => {
-    e.stopPropagation(); // stop card click
+    e.stopPropagation();
 
     const confirmDelete = window.confirm(
       "Are you sure you want to delete this bill?"
@@ -34,9 +42,8 @@ export default function BillList() {
     if (!confirmDelete) return;
 
     try {
-      await API.delete(`/${id}`);
+      await API.delete(`/bills/${id}`); // ✅ correct route
 
-      // remove deleted bill from state
       setBills((prev) => prev.filter((bill) => bill._id !== id));
     } catch (error) {
       console.error("Delete error:", error);
@@ -60,7 +67,7 @@ export default function BillList() {
       </button>
 
       <div className="row">
-        {bills.map((bill) => (
+        {Array.isArray(bills) && bills.map((bill) => (
           <div
             key={bill._id}
             className="col-lg-3 col-md-4 col-sm-6 mb-4"
@@ -94,7 +101,6 @@ export default function BillList() {
                   {new Date(bill.createdAt).toLocaleDateString()}
                 </p>
 
-                {/* 🔥 DELETE BUTTON */}
                 <button
                   className="btn btn-sm btn-danger w-100"
                   onClick={(e) => handleDeleteBill(bill._id, e)}
@@ -108,7 +114,7 @@ export default function BillList() {
         ))}
       </div>
 
-      {bills.length === 0 && (
+      {Array.isArray(bills) && bills.length === 0 && (
         <p className="text-center mt-4">No bills found.</p>
       )}
     </div>
