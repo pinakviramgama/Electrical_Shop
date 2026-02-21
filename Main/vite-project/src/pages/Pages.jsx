@@ -10,24 +10,27 @@ export default function Home() {
   const [searchTerm, setSearchTerm] = useState("");
 
   // Fetch all products
-  const fetchProducts = async () => {
-    try {
-      const res = await API.get("/products");
-      setProducts(res.data);
-    } catch (err) {
-      console.log("FETCH ERROR:", err);
-    }
-  };
+ const fetchCategories = async () => {
+  try {
+    const res = await API.get("/category");
 
-  // Fetch all categories
-  const fetchCategories = async () => {
-    try {
-      const res = await API.get("/category");
-      setCategories(res.data.map(c => c.name).filter(n => n.toLowerCase() !== "none"));
-    } catch (err) {
-      console.log("CATEGORY FETCH ERROR:", err);
+    const categoryArray = res.data.categories || res.data;
+
+    if (Array.isArray(categoryArray)) {
+      setCategories(
+        categoryArray
+          .map(c => c.name)
+          .filter(n => n.toLowerCase() !== "none")
+      );
+    } else {
+      console.error("Invalid category response:", res.data);
+      setCategories([]);
     }
-  };
+
+  } catch (err) {
+    console.log("CATEGORY FETCH ERROR:", err);
+  }
+};
 
   useEffect(() => {
     fetchProducts();
