@@ -8,16 +8,11 @@ import Category from "../models/Category.js";
 
 const router = express.Router();
 
-// app.use("/api/products", productRoutes);
-// app.use("/api/admin", adminRoutes);
-// app.use("/api/category", categoryRoutes);
-// app.use("/api/invoices", billRoutes);
-
 // Add new category (admin only)
-router.post("/api/category/add", adminOnly, addCategory);
+router.post("/add", adminOnly, addCategory);
 
 // Fetch all categories
-router.get("/api/category", async (req, res) => {
+router.get("/", async (req, res) => {
   try {
     const categories = await Category.find({});
     res.json(categories);
@@ -26,6 +21,6 @@ router.get("/api/category", async (req, res) => {
   }
 });
 
-router.delete("/api/category/delete/:name", adminOnly, deleteCategory);
+router.delete("/delete/:name", adminOnly, deleteCategory);
 
 export default router;
