@@ -19,7 +19,7 @@ export default function AdminLogin() {
 
     try {
       const res = await axios.post(
-        `${API}/admin/login`,
+        `${API}/api/admin/login`,
         { email, password },
         { withCredentials: true }
       );
