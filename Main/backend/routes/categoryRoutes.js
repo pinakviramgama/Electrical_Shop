@@ -9,7 +9,7 @@ import Category from "../models/Category.js";
 const router = express.Router();
 
 // Add new category (admin only)
-router.post("/add", adminOnly, addCategory);
+router.post("/add", addCategory);
 
 // Fetch all categories
 router.get("/", async (req, res) => {
