@@ -1,0 +1,80 @@
+@media (max-width: 576px) {
+  .invoice-container {
+    padding: 12px !important;
+    font-size: 13px !important;
+  }
+
+  .invoice-container h5 {
+    font-size: 16px !important;
+  }
+
+  .invoice-container h2 {
+    font-size: 18px !important;
+  }
+
+  .invoice-container img {
+    width: 60px !important;
+  }
+}
+
+.invoice-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.invoice-table th,
+.invoice-table td {
+  border: 1px solid black;
+  padding: 8px;
+  text-align: center;
+}
+
+.invoice-table th {
+  background: #f3f3f3;
+}
+
+/* 🔥 MOBILE VIEW */
+@media (max-width: 576px) {
+  .invoice-table thead {
+    display: none;
+  }
+
+  .invoice-table tr {
+    display: block;
+    border: 1px solid black;
+    margin-bottom: 8px;
+    padding: 8px;
+  }
+
+  .invoice-table td {
+    display: inline-block;
+    border: none;
+    padding: 4px 6px;
+    font-size: 13px;
+  }
+
+  .invoice-table td:nth-child(1)::before {
+    content: "No: ";
+    font-weight: bold;
+  }
+
+  .invoice-table td:nth-child(2)::before {
+    content: "Item: ";
+    font-weight: bold;
+  }
+
+  .invoice-table td:nth-child(3)::before {
+    content: "Qty: ";
+    font-weight: bold;
+  }
+
+  .invoice-table td:nth-child(4)::before {
+    content: "Rate: ";
+    font-weight: bold;
+  }
+
+  .invoice-table td:nth-child(5)::before {
+    content: "Amt: ";
+    font-weight: bold;
+  }
+}

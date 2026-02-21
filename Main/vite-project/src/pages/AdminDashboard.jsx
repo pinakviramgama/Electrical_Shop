@@ -187,14 +187,34 @@ function AdminDashboard() {
           <button className="mb-3 btn btn-sm btn-primary px-3" onClick={() => setShowCategory(!showCategory)} >Show All Cateogries</button>
         </div>
 
-         {showCategory && <ul className="mb-3 list-group w-50">
-          {categories.map((cat, index) => cat.toLowerCase() !== "none" && (
-            <li key={index} className="list-group-item d-flex justify-content-between align-items-center">
-              {cat}
-              <button className="btn btn-sm btn-danger" onClick={() => deleteCategory(cat)}>Delete</button>
-            </li>
-          ))}
-        </ul>}
+        {showCategory && (
+  <ul className="mb-3 list-group w-50">
+
+    {categories.length === 1 && (
+      <li className="list-group-item text-center text-muted">
+        No categories yet
+      </li>
+    )}
+
+    {categories.map((cat, index) =>
+      cat.toLowerCase() !== "none" && (
+        <li
+          key={index}
+          className="list-group-item d-flex justify-content-between align-items-center"
+        >
+          {cat}
+          <button
+            className="btn btn-sm btn-danger"
+            onClick={() => deleteCategory(cat)}
+          >
+            Delete
+          </button>
+        </li>
+      )
+    )}
+
+  </ul>
+)}
 
         <div className="d-flex justify-content-start">
           <button
@@ -209,8 +229,12 @@ function AdminDashboard() {
           </button>
         </div>
 
-        <div className="d-flex justify-content-start">
-          <button className="btn btn-sm btn-primary">Generate Bill</button>
+        <div className="mb-3 d-flex justify-content-start">
+          <button onClick={()=>navigate("/bill")} className="btn btn-sm btn-primary">Generate Bill</button>
+        </div>
+
+          <div className="d-flex justify-content-start">
+          <button onClick={()=>navigate("/bill/show")} className="btn btn-sm btn-primary">See Bills</button>
         </div>
 
       </div>

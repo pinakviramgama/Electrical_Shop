@@ -5,6 +5,7 @@ import mongoose from "mongoose";
 import path from "path";
 
 import adminRoutes from "./routes/adminRoutes.js";
+import billRoutes from "./routes/billRoutes.js";
 import categoryRoutes from "./routes/categoryRoutes.js";
 import productRoutes from "./routes/productRoutes.js";
 dotenv.config();
@@ -17,7 +18,7 @@ app.use(express.json());
 // ✅ CORS Setup
 app.use(
   cors({
-    origin: ["http://localhost:5173", "https://electrical-shop-8.onrender.com"],
+    origin: ["http://localhost:5173"],
     credentials: true,
   }),
 );
@@ -26,7 +27,7 @@ app.use(
 app.use("/api/products", productRoutes);
 app.use("/api/admin", adminRoutes);
 app.use("/api/category", categoryRoutes);
-
+app.use("/api/invoices", billRoutes);
 // ✅ MongoDB Connect FIX
 mongoose
   .connect(process.env.MONGO_URI, {})
@@ -35,7 +36,7 @@ mongoose
 
 // ✅ Serve Frontend Build Correctly
 const __dirnamePath = path.resolve();
-const distPath = path.join(__dirnamePath, "vite-project/dist");
+const distPath = path.join(__dirnamePath, "../vite-project/dist");
 
 app.use(express.static(distPath));
 

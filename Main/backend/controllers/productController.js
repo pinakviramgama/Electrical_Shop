@@ -23,7 +23,7 @@ export const addProduct = async (req, res) => {
       req.body;
 
     // ✅ Validation
-    if (!name || !price || !wholeSalePrice || !description) {
+    if (!name || !price || !wholeSalePrice || !description || !category) {
       return res.status(400).json({
         message: "All fields are required",
       });
