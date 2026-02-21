@@ -89,6 +89,7 @@ export default function BillList() {
                   </span>
                 </div>
 
+                        {/* comment */}
                 <h6 className="fw-semibold mb-1">
                   {bill.customerName}
                 </h6>
