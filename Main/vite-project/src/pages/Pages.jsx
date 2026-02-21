@@ -65,7 +65,7 @@ const fetchCategories = async () => {
             <div className="col-12 col-md-6 mb-4 mb-md-0 text-center">
               <h1 className="fw-bold display-6">
                 Welcome to <br />
-                <span className="text-primary">Bajrang Krupa Electricals & AC Services</span>
+                <span className="text-primary">Shree Bajrang Krupa Electricals & AC Services</span>
               </h1>
               <p className="text-secondary mt-3 fs-6">
                 Fans • Mixers • Lights • Irons <br />
